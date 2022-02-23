@@ -2,25 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Card extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      cardTrunfo: false,
-    };
-  }
-
-  trunfo = () => {
-    const { cardTrunfo } = this.state;
-    return cardTrunfo === true ? 'Super Trunfo' : '';
-  }
-
   render() {
     const { cardName, cardDescription, cardAttr1,
       cardAttr2, cardAttr3, cardImage,
       cardRare, cardTrunfo } = this.props;
 
     return (
-      <div>
+      <div className="card">
         <p data-testid="name-card">{ cardName }</p>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
         <p data-testid="description-card">{ cardDescription }</p>
@@ -44,7 +32,6 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
-
 };
 
 export default Card;
