@@ -13,7 +13,7 @@ const estadoInicial = {
   cardRare: 'Normal',
   isSaveButtonDisabled: true,
   baralhoSalvo: [],
-  salvo: false,
+  hasTrunfo: false,
 };
 
 class App extends React.Component {
@@ -82,7 +82,7 @@ class App extends React.Component {
       this.setState(estadoInicial);
       const { baralhoSalvo } = this.state;
       this.setState({
-        salvo: baralhoSalvo.some(({ cardTrunfo }) => cardTrunfo),
+        hasTrunfo: baralhoSalvo.some(({ cardTrunfo }) => cardTrunfo),
       });
     });
   }
@@ -98,7 +98,7 @@ class App extends React.Component {
       cardTrunfo,
       cardRare,
       isSaveButtonDisabled,
-      salvo,
+      hasTrunfo,
     } = this.state;
     return (
       <div className="App">
@@ -115,7 +115,7 @@ class App extends React.Component {
           onInputChange={ this.onInputChange }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ this.onSaveButtonClick }
-          hasTrunfo={ salvo }
+          hasTrunfo={ hasTrunfo }
         />
         <Card
           cardName={ cardName }
