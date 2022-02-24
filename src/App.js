@@ -59,7 +59,8 @@ class App extends React.Component {
 
   onSaveButtonClick = (event) => {
     event.preventDefault();
-    this.setState(({ cardName,
+
+    const { cardName,
       cardDescription,
       cardAttr1,
       cardAttr2,
@@ -67,23 +68,57 @@ class App extends React.Component {
       cardImage,
       cardTrunfo,
       cardRare,
-      baralhoSalvo }) => ({
-      baralhoSalvo: [...baralhoSalvo, {
-        cardName,
+      baralhoSalvo } = this.state;
+
+    const novaCarta = { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardTrunfo,
+      cardRare,
+      baralhoSalvo };
+
+    this.setState((estadoAnterior) => ({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+      hasTrunfo: false,
+      isSaveButtonDisabled: true,
+      baralhoSalvo: [...estadoAnterior.baralhoSalvo, novaCarta],
+    }));
+    if (cardTrunfo) this.setState({ hasTrunfo: true });
+  }
+
+  listaCartasSalvas = () => {
+    const { baralhoSalvo } = this.state;
+    return baralhoSalvo.map((card) => {
+      const { cardName,
         cardDescription,
+        cardImage,
+        cardRare,
         cardAttr1,
         cardAttr2,
         cardAttr3,
-        cardImage,
         cardTrunfo,
-        cardRare,
-      }],
-    }), () => {
-      this.setState(estadoInicial);
-      const { baralhoSalvo } = this.state;
-      this.setState({
-        hasTrunfo: baralhoSalvo.some(({ cardTrunfo }) => cardTrunfo),
-      });
+      } = card;
+      return (<Card
+        cardName={ cardName }
+        cardDescription={ cardDescription }
+        cardAttr1={ cardAttr1 }
+        cardAttr2={ cardAttr2 }
+        cardAttr3={ cardAttr3 }
+        cardImage={ cardImage }
+        cardTrunfo={ cardTrunfo }
+        cardRare={ cardRare }
+        key={ cardName }
+      />);
     });
   }
 
@@ -101,7 +136,7 @@ class App extends React.Component {
       hasTrunfo,
     } = this.state;
     return (
-      <div className="App">
+      <>
         <h1>Tryunfo</h1>
         <Form
           cardName={ cardName }
@@ -117,6 +152,7 @@ class App extends React.Component {
           onSaveButtonClick={ this.onSaveButtonClick }
           hasTrunfo={ hasTrunfo }
         />
+        <h2>Preview</h2>
         <Card
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -127,7 +163,11 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           cardRare={ cardRare }
         />
-      </div>
+        <div>
+          <h2>Baralho</h2>
+          { this.listaCartasSalvas() }
+        </div>
+      </>
     );
   }
 }
