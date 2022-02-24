@@ -12,6 +12,8 @@ const estadoInicial = {
   cardTrunfo: false,
   cardRare: 'Normal',
   isSaveButtonDisabled: true,
+  baralhoSalvo: [],
+  salvo: false,
 };
 
 class App extends React.Component {
@@ -55,6 +57,36 @@ class App extends React.Component {
     }, () => this.validar());
   }
 
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    this.setState(({ cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardTrunfo,
+      cardRare,
+      baralhoSalvo }) => ({
+      baralhoSalvo: [...baralhoSalvo, {
+        cardName,
+        cardDescription,
+        cardAttr1,
+        cardAttr2,
+        cardAttr3,
+        cardImage,
+        cardTrunfo,
+        cardRare,
+      }],
+    }), () => {
+      this.setState(estadoInicial);
+      const { baralhoSalvo } = this.state;
+      this.setState({
+        salvo: baralhoSalvo.some(({ cardTrunfo }) => cardTrunfo),
+      });
+    });
+  }
+
   render() {
     const {
       cardName,
@@ -66,6 +98,7 @@ class App extends React.Component {
       cardTrunfo,
       cardRare,
       isSaveButtonDisabled,
+      salvo,
     } = this.state;
     return (
       <div className="App">
@@ -81,6 +114,8 @@ class App extends React.Component {
           cardRare={ cardRare }
           onInputChange={ this.onInputChange }
           isSaveButtonDisabled={ isSaveButtonDisabled }
+          onSaveButtonClick={ this.onSaveButtonClick }
+          hasTrunfo={ salvo }
         />
         <Card
           cardName={ cardName }
