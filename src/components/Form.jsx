@@ -1,9 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import './form.css';
+import React from 'react';
+// import './form.css';
 
 class Form extends React.Component {
-  render() {
+  render() { // o Form recebe do App todas as props necessarias e cria as tags para conforme funcionalidades;
     const { cardName, cardDescription, cardAttr1,
       cardAttr2, cardAttr3, cardImage,
       cardRare, cardTrunfo,
@@ -19,7 +19,7 @@ class Form extends React.Component {
             name="cardName"
             id="cardName"
             data-testid="name-input"
-            value={ cardName }
+            value={ cardName } // aqui a props como value para que cardName no estado receba o que o usuário está digitando e salve no estado atraves da função do onChange, que também está sendo recebida por pros do App
             onChange={ onInputChange }
           />
         </label>
@@ -43,7 +43,8 @@ class Form extends React.Component {
             name="cardAttr1"
             id="cardAttr1"
             data-testid="attr1-input"
-            max="90"
+            max="90"// aqui confirma novamente que o numero maximo é 90;
+            min="0"// e o mínimo de 0 o que força o input a não permitir outrois valores
             value={ cardAttr1 }
             onChange={ onInputChange }
           />
@@ -55,6 +56,7 @@ class Form extends React.Component {
             name="cardAttr2"
             id="cardAttr2"
             max="90"
+            min="0"
             data-testid="attr2-input"
             value={ cardAttr2 }
             onChange={ onInputChange }
@@ -67,6 +69,7 @@ class Form extends React.Component {
             name="cardAttr3"
             id="cardAttr3"
             max="90"
+            min="0"
             data-testid="attr3-input"
             value={ cardAttr3 }
             onChange={ onInputChange }
@@ -74,7 +77,7 @@ class Form extends React.Component {
         </label>
         <label htmlFor="cardImage">
           Imagem:
-          <input
+          <input // recebe o value da url ou local salvo da img que ainda não está funcinando
             type="text"
             name="cardImage"
             id="cardImage"
@@ -97,6 +100,7 @@ class Form extends React.Component {
             <option value="muito raro">Muito Raro</option>
           </select>
         </label>
+        {/* abaixo uma condicional para definir como o checkbox será renderizado, se true aparece a mensagem na tag p se false renderiza p checkbox para marcar e faz toda a logica de ter apenas uma carta super trunfo no baralho atraves das função atribuidas as props recebidas em cardTrunfo e hasTrunfo */}
         { hasTrunfo ? <p>Você já tem um Super Trunfo em seu baralho</p>
           : (
             <label htmlFor="cardTrunfo">
@@ -112,7 +116,7 @@ class Form extends React.Component {
               />
             </label>
           )}
-        <button
+        <button // salvar recebe a logica de salvar atraves das props recebidas em disabled e onClick
           type="button"
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
